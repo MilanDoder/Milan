@@ -14,19 +14,13 @@ import com.chess.engine.board.Move.MajorMove;
 import com.google.common.collect.ImmutableList;
 
 public  class Bishop extends Piece {
-
 	private static final int[] CANDIDATE_MOVE_VECTOR_COORDINATES ={-9,-7,7,9};
-	
 	 public Bishop(int piecePositions, Alliance pieceAlliance) {
 		super(PieceType.BISHOP,piecePositions, pieceAlliance);
-		// TODO Auto-generated constructor stub
 	}
-
 	 @Override
-	public Collection<Move> calculateIlegalMove(final Board board) {
-		
+	public Collection<Move> calculateIlegalMove(final Board board) {	
 		final List<Move> legalMove = new ArrayList<>(); 
-		 
 		for(final int candidateCoordinateOffset: CANDIDATE_MOVE_VECTOR_COORDINATES){
 			int candidateDestinationCoordinate = this.piecePositions;
 			while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)){
@@ -34,7 +28,6 @@ public  class Bishop extends Piece {
 						isEightColumnExclustion(candidateDestinationCoordinate, candidateCoordinateOffset)){
 					break;
 				}
-				
 				candidateDestinationCoordinate+=candidateCoordinateOffset;
 				if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)){
 					final Tile candidateDistiantionTile = board.getTile(candidateDestinationCoordinate);
@@ -47,32 +40,23 @@ public  class Bishop extends Piece {
 							legalMove.add(new AttackMove(board,this,candidateDestinationCoordinate,pieceAtDestination));
 						}
 						break;
-					}
-				
-					
+					}	
 				}
 			}
 		}
-		 
 		return ImmutableList.copyOf(legalMove);
 	}
-	 
-	 public String toString(){
+	public String toString(){
 		 return PieceType.BISHOP.toString();
-	 }
-	 
+	 } 
 	 private static boolean isFirstColumnExclustion(final int currentPosition, final int candidateOffset){
 		 return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset==-9) || (candidateOffset==7);
 	 }
-	 
 	 private static boolean isEightColumnExclustion(final int currentPosition, final int candidateOffset){
 		 return BoardUtils.EIGHT_COLUMN[currentPosition] && (candidateOffset==-7) || (candidateOffset==9);
 	 }
-
 	@Override
 	public Bishop movePieces( final Move move) {
 		return new Bishop(move.getDestinationCoordinate(),move.getMovedPiece().getPieceAlliance());
 	}
-	
-	
 }

@@ -15,20 +15,13 @@ import com.chess.engine.piece.Piece.PieceType;
 import com.google.common.collect.ImmutableList;
 
 public class Queen extends Piece{
-	
 	private static final int[] CANDIDATE_MOVE_VECTOR_COORDINATES ={-9,-8,-7,-1,1,7,8,9};
-
-
 	public Queen(int piecePositions, Alliance pieceAlliance) {
 		super(PieceType.QUEEN,piecePositions, pieceAlliance);
-		// TODO Auto-generated constructor stub
 	}
-
 	@Override
-public Collection<Move> calculateIlegalMove(final Board board) {
-		
+	public Collection<Move> calculateIlegalMove(final Board board) {	
 		final List<Move> legalMove = new ArrayList<>(); 
-		 
 		for(final int candidateCoordinateOffset: CANDIDATE_MOVE_VECTOR_COORDINATES){
 			int candidateDestinationCoordinate = this.piecePositions;
 			while(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)){
@@ -36,7 +29,6 @@ public Collection<Move> calculateIlegalMove(final Board board) {
 						isEightColumnExclustion(candidateDestinationCoordinate, candidateCoordinateOffset)){
 					break;
 				}
-				
 				candidateDestinationCoordinate+=candidateCoordinateOffset;
 				if(BoardUtils.isValidTileCoordinate(candidateDestinationCoordinate)){
 					final Tile candidateDistiantionTile = board.getTile(candidateDestinationCoordinate);
@@ -49,30 +41,23 @@ public Collection<Move> calculateIlegalMove(final Board board) {
 							legalMove.add(new AttackMove(board,this,candidateDestinationCoordinate,pieceAtDestination));
 						}
 						break;
-					}
-				
-					
+					}	
 				}
 			}
 		}
-		 
 		return ImmutableList.copyOf(legalMove);
 	}
-	
 	public String toString(){
 		 return PieceType.QUEEN.toString();
-	 }
-	
-	 private static boolean isFirstColumnExclustion(final int currentPosition, final int candidateOffset){
+	}
+	private static boolean isFirstColumnExclustion(final int currentPosition, final int candidateOffset){
 		 return BoardUtils.FIRST_COLUMN[currentPosition] && (candidateOffset==-1) || (candidateOffset==-9) || (currentPosition==7);
-	 }
-	 
-	 private static boolean isEightColumnExclustion(final int currentPosition, final int candidateOffset){
+	 } 
+	private static boolean isEightColumnExclustion(final int currentPosition, final int candidateOffset){
 		 return BoardUtils.EIGHT_COLUMN[currentPosition] && (candidateOffset==1) || (candidateOffset==9)|| (currentPosition==-7);
 	 }
-	 
 	 @Override
-		public Queen movePieces( final Move move) {
+	public Queen movePieces( final Move move) {
 			return new Queen(move.getDestinationCoordinate(),move.getMovedPiece().getPieceAlliance());
-		}
+	}
 }

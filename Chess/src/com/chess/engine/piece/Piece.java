@@ -7,14 +7,11 @@ import com.chess.engine.board.*;
 
 
 public abstract class Piece {
-
 	protected final PieceType pieceType;
 	protected final int piecePositions;
 	protected final Alliance pieceAlliance;
 	protected final boolean isFirstMove;
 	private final int cachedHashCode;
-	
-	
 	protected Piece(final PieceType pieceType,int piecePositions, Alliance pieceAlliance) {
 		this.pieceType= pieceType;
 		this.piecePositions = piecePositions;
@@ -22,9 +19,6 @@ public abstract class Piece {
 		this.isFirstMove=false;
 		this.cachedHashCode = computeHashCode();
 	}
-	
-	
-	
 	private int computeHashCode() {
 		int result = pieceType.hashCode();
 		result = 31 * result +pieceAlliance.hashCode();
@@ -32,33 +26,22 @@ public abstract class Piece {
 		result = 31 * result + (isFirstMove? 1:0);
 		return result;
 	}
-
-
-
 	@Override
 	public int hashCode() {
 		return this.cachedHashCode;
 	}
-
-
-
 	@Override
 	public boolean equals(final Object obj) {
 		if (this == obj)
-			return true;
-		
+			return true;	
 		if (!(obj instanceof Piece))
 			return false;
 		final Piece other = (Piece) obj;
-		
 		return piecePositions == other.getPiecePosition() && 
 			   other.getPieceType()==pieceType &&
 			   pieceAlliance == other.getPieceAlliance() && 
 			   isFirstMove == other.isFirstMove();
 	}
-
-
-
 	public int getPiecePosition(){
 		return this.piecePositions;
 	}
@@ -73,105 +56,75 @@ public abstract class Piece {
 	}
 	public abstract Collection<Move> calculateIlegalMove (final Board board);
 	public abstract Piece movePieces(Move move);
-	
-	
-	
 	public enum PieceType{
-		
 		PAWN("P") {
 			@Override
 			public boolean isKing() {
-				// TODO Auto-generated method stub
 				return false;
 			}
-
 			@Override
 			public boolean isRook() {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		},
 		KNIGHT("N") {
 			@Override
 			public boolean isKing() {
-				// TODO Auto-generated method stub
 				return false;
 			}
-
 			@Override
 			public boolean isRook() {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		},
 		BISHOP("B") {
 			@Override
 			public boolean isKing() {
-				// TODO Auto-generated method stub
 				return false;
 			}
-
 			@Override
 			public boolean isRook() {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		},
 		ROOK("R") {
 			@Override
 			public boolean isKing() {
-				// TODO Auto-generated method stub
 				return false;
 			}
-
 			@Override
 			public boolean isRook() {
-				// TODO Auto-generated method stub
 				return true;
 			}
 		},
 		QUEEN("Q") {
 			@Override
 			public boolean isKing() {
-				// TODO Auto-generated method stub
 				return false;
 			}
-
 			@Override
 			public boolean isRook() {
-				// TODO Auto-generated method stub
 				return false;
 			}
 		},
 		KING("K") {
 			@Override
 			public boolean isKing() {
-				// TODO Auto-generated method stub
 				return true;
 			}
-
 			@Override
 			public boolean isRook() {
-				// TODO Auto-generated method stub
 				return false;
 			}
-		};
-		
-		
-		
+		};		
 		private String pieceName;
-		
 		 PieceType(final String pieceName){
 			 this.pieceName= pieceName;
 		 }
-		 
 		 public String toString(){
 			 return this.pieceName;
 		 }
-		 
 		 public abstract boolean isKing();
-		 public abstract boolean isRook();
-		
-		
+		 public abstract boolean isRook();	
 	}
 }
